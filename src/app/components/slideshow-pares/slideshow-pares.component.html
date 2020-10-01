@@ -1,0 +1,25 @@
+<ion-slides [options]="slideOptions">
+
+    <ion-slide *ngFor="let pares of peliculas | pares">
+
+        <ion-row>
+            <ion-col size="12" *ngFor="let pelicula of pares">
+                <ion-card (click)="mostrarDetalle(pelicula.id)">
+                    <img class="poster" [src]="pelicula.poster_path | imagen">
+                    <div style="position: absolute; top:7px; left: 7px; padding: 1px; background-color: black; color: whitesmoke">{{pelicula.vote_average}}</div>
+                    <ion-card-content class="small-text">{{pelicula.title}}</ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+
+    </ion-slide>
+
+    <ion-slide class="slide-more">
+
+        <ion-button (click)="loadMore()" expand="full" size="large" class="btn-more">
+            <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+
+    </ion-slide>
+
+</ion-slides>

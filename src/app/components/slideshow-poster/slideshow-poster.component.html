@@ -1,0 +1,10 @@
+<ion-slides [options]="slideOptions">
+    <ion-slide *ngFor="let pelicula of peliculas">
+
+        <ion-card (click)="mostrarDetalle(pelicula.id)">
+            <img class="poster" [src]="pelicula.poster_path | imagen">
+            <div style="position: absolute; top:7px; left: 7px; padding: 1px; background-color: black; color: whitesmoke">{{pelicula.vote_average}}</div>
+        </ion-card>
+
+    </ion-slide>
+</ion-slides>
