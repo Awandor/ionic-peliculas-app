@@ -288,6 +288,29 @@ Consultar la documentación de Cordova para entender lo que hacen los diferentes
 `https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/index.html`
 
 
+## Cambiar color de fondo de los adaptive icons en Android
+
+Create a res/values/colors.xml resource file in your project directory to store the app's color definitions.
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#FF0000</color>
+</resources>
+
+In the config.xml, we will add resource-file to copy the colors.xml into the approprate location so that the colors are available during build time.
+
+<platform name="android">
+        ...
+    <resource-file src="res/icon/android/colors.xml" target="/app/src/main/res/values/colors.xml" />
+    <icon density="ldpi" background="@color/background" foreground="res/icon/android/mipmap-ldpi/ic_launcher.png" />
+    <icon density="mdpi" background="@color/background" foreground="res/icon/android/mipmap-mdpi/ic_launcher.png" />
+    <icon density="hdpi" background="@color/background" foreground="res/icon/android/mipmap-hdpi/ic_launcher.png" />
+    <icon density="xhdpi" background="@color/background" foreground="res/icon/android/mipmap-xhdpi/ic_launcher.png" />
+    <icon density="xxhdpi" background="@color/background" foreground="res/icon/android/mipmap-xxhdpi/ic_launcher.png" />
+    <icon density="xxxhdpi" background="@color/background" foreground="res/icon/android/mipmap-xxxhdpi/ic_launcher.png" />
+</platform>
+
+
 # GIT
 Añadimos los cambios a GIT> `git add .`
 Commit > `git commit -m "Primer commit"`
@@ -328,6 +351,15 @@ Esto recrea la carpeta WWW que contendrá el código para ser desplegado como un
 Debemos ajustar en `index.html` <meta name="theme-color" content="#1976d2"> y poner el color que queremos #222428 (dark)
 
 
+## Crear Splash e iconos para PWA
+
+https://itnext.io/pwa-splash-screen-and-icon-generator-a74ebb8a130
+
+https://www.npmjs.com/package/pwa-asset-generator
+
+Instalar como administrador > `npm install --global pwa-asset-generator`
+
+
 ## Desplegar la PWA en un hosting
 
 Debe de ser un hosting con https
@@ -339,6 +371,8 @@ Vamos a Hosting > Empezar/Get started
 Si no tenemos instalado CLI de Firebase > `npm install -g firebase-tools` Hay que abrir CMD como administrador
 
 Para comprobar si lo tenemos instalado > `firebase --version`
+
+Next en Firebase
 
 Después > `firebase login` Nos va a pedir nuestro login de Google
 
@@ -360,8 +394,10 @@ Ahora vamos a desplegar la PWA a Firebase > `firebase deploy`
 
 La dirección es: `https://proyectos-ionic.web.app`
 
-Newsapi.org ha cambiado los privilegios para las cuentas de desarrollador gratuitas, solo se podrán realizar peticiones http desde localhost, es decir, desde nuestro proyecto en local.
+Si hay problemas por haber por ejemplo generado una apk con `ionic cordova build android --prod` que
+añade código a www, código que da problemas en Firebase
+Hay que correr > `ionic build --prod`
 
-Al desplegar la app a producción el origin cambia de localhost al nombre del dominio, por lo tanto, el servidor emite el bloqueo de la conexión por CORS.
+Y después  > `firebase deploy`
 
-Antes, si era posible desplegar una app a producción sin problemas, ahora es necesario una cuenta de pago.
+Si queremos subir a otro proyecto de Firebase borrar `.firebaserc` y `firebase.json`

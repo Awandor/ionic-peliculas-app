@@ -71,7 +71,7 @@
 
     <app-slideshow-poster [peliculas]="peliculasRecientes" [slideOptions]="slideOpts" (loadMoreEvent)="loadMore()"></app-slideshow-poster> -->
 
-    <ion-grid>
+    <ion-grid fixed>
         <ion-row>
             <ion-col size="8">
                 <h3>Películas populares</h3>
@@ -83,24 +83,36 @@
     </ion-grid>
 
     <ion-item>
-        <ion-grid fixed>
-            <ion-row>
-
-                <ion-col size="6">
-                    <ion-label position="floating">Selecciona año</ion-label>
-                    <ion-datetime color="primary" display-format="YYYY" picker-format="YYYY" min="1900" [max]="currentYear" [value]="currentYear" (ionChange)="yearChange($event)"></ion-datetime>
-                </ion-col>
-
-                <ion-col size="6">
-                    <ion-label position="floating">Selecciona género</ion-label>
-                    <ion-select [value]="generos[0].id" interface="popover" okText="Done" cancelText="Cancel" (ionChange)="generoChange($event)">
-                        <ion-select-option *ngFor="let genero of generos" [value]="genero.id">{{genero.name}}</ion-select-option>
-                    </ion-select>
-                </ion-col>
-
-            </ion-row>
-        </ion-grid>
+        <div slot="start">
+            <ion-label position="floating">Selecciona año</ion-label>
+            <ion-datetime color="primary" display-format="YYYY" picker-format="YYYY" min="1900" [max]="currentYear" [value]="currentYear" (ionChange)="yearChange($event)"></ion-datetime>
+        </div>
+        <div slot="end">
+            <ion-label position="floating">Selecciona género</ion-label>
+            <ion-select [value]="generos[0].id" interface="popover" okText="Done" cancelText="Cancel" (ionChange)="generoChange($event)">
+                <ion-select-option *ngFor="let genero of generos" [value]="genero.id">{{genero.name}}</ion-select-option>
+            </ion-select>
+        </div>
     </ion-item>
+
+    <!-- <ion-grid fixed>
+        <ion-row>
+
+            <ion-col size="6">
+                <ion-label position="floating">Selecciona año</ion-label>
+                <ion-datetime color="primary" display-format="YYYY" picker-format="YYYY" min="1900" [max]="currentYear" [value]="currentYear" (ionChange)="yearChange($event)"></ion-datetime>
+            </ion-col>
+
+            <ion-col size="6" class="ion-text-center">
+                <ion-label position="floating">Selecciona género</ion-label>
+                <ion-select [value]="generos[0].id" interface="popover" okText="Done" cancelText="Cancel" (ionChange)="generoChange($event)">
+                    <ion-select-option *ngFor="let genero of generos" [value]="genero.id">{{genero.name}}</ion-select-option>
+                </ion-select>
+            </ion-col>
+            <hr>
+        </ion-row>
+    </ion-grid> -->
+
     <ion-item>
         <ion-label position="floating"><small>Rango de número de votos mínimo</small></ion-label>
         <ion-range min="100" max="15000" pin="true" debounce="1500" snaps="true" step="100" ticks="true" [value]="puntuacionMinPopulares" color="primary" (ionChange)="rangeNumeroVotosChange($event)">

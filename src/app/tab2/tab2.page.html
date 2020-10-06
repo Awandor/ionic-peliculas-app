@@ -39,11 +39,11 @@
                     <img [src]="pelicula.poster_path | poster">
                     <div style="position: absolute; top:7px; left: 7px; padding: 1px; background-color: black; color: whitesmoke">{{pelicula.vote_average}}</div>
                     <ion-card-header>
-                        <ion-card-subtitle>{{pelicula.release_date}}</ion-card-subtitle>
+                        <ion-card-subtitle>{{pelicula.release_date | date:'dd-MM-yyyy'}}</ion-card-subtitle>
                     </ion-card-header>
                     <ion-card-content>
                         <h2>{{pelicula.title}}</h2>
-                        <h3>{{pelicula.original_title}}</h3>
+                        <h3><i>({{pelicula.original_title}})</i></h3>
                     </ion-card-content>
                 </ion-card>
             </ion-col>
