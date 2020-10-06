@@ -15,12 +15,24 @@ export class SlideshowBackdropComponent implements OnInit {
     slideOpts = {
         slidesPerView: 1.1,
         freeMode: true,
-        freeModeMomentum: true
+        freeModeMomentum: true,
+        breakpoints: {
+            // when window width is >= 767px
+            767: {
+                slidesPerView: 2.3,
+                // spaceBetween: 30,
+            },
+            1500: {
+                slidesPerView: 4.3,
+            }
+        }
     };
 
-    @Output() loadMoreRecientesEvent = new EventEmitter();
+    @Output() loadMoreEvent = new EventEmitter();
 
     @ViewChild('recientesRef', { static: true }) recientesSlides: IonSlides;
+
+    @Input() totalPagesReached = false;
 
     constructor(private modalCtrl: ModalController) { }
 
@@ -29,7 +41,7 @@ export class SlideshowBackdropComponent implements OnInit {
 
     loadMoreRecientes() {
 
-        this.loadMoreRecientesEvent.emit();
+        this.loadMoreEvent.emit();
 
     }
 
@@ -41,7 +53,8 @@ export class SlideshowBackdropComponent implements OnInit {
             component: DetalleComponent,
             componentProps: {
                 id // id: id
-            }
+            },
+            id: 'modalPelicula'
         });
 
         modal.present();
@@ -50,7 +63,7 @@ export class SlideshowBackdropComponent implements OnInit {
 
     public gotoFirstSlide() {
 
-        console.log('EUREKA');
+        // console.log('EUREKA');
 
         this.recientesSlides.slideTo(0);
 

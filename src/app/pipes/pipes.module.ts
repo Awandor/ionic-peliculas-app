@@ -4,19 +4,22 @@ import { ImagenPipe } from './imagen.pipe';
 import { ParesPipe } from './pares.pipe';
 import { TruncatetextPipe } from './truncatetext.pipe';
 import { PosterPipe } from './poster.pipe';
+import { SaltosLineaPipe } from './saltos-linea.pipe';
 
 @NgModule({
     declarations: [
         ImagenPipe,
         ParesPipe,
         TruncatetextPipe,
-        PosterPipe
+        PosterPipe,
+        SaltosLineaPipe
     ],
     exports: [
         ImagenPipe,
         ParesPipe,
         TruncatetextPipe,
-        PosterPipe
+        PosterPipe,
+        SaltosLineaPipe
     ],
     imports: [
         CommonModule

@@ -1,20 +1,24 @@
-<ion-slides [options]="slideOptions">
+<ion-slides #popularesRef [options]="slideOptions">
 
     <ion-slide *ngFor="let pares of peliculas | pares">
 
         <ion-row>
             <ion-col size="12" *ngFor="let pelicula of pares">
-                <ion-card (click)="mostrarDetalle(pelicula.id)">
-                    <img class="poster" [src]="pelicula.poster_path | imagen">
+
+                <ion-card color="light" style="height: 244px; width: 130px" (click)="mostrarDetalle(pelicula.id)">
+                    <!-- <img style="background: url({{pelicula.poster_path | imagen}}); background-repeat: no-repeat; background-size: cover"> -->
+                    <!-- <div style="height: 300px; width: 100%; background-color: red;"></div> -->
+                    <div [style.background-image]="'url(' + (pelicula.poster_path | imagen) + ')'" [style.background-size]="'cover'" style="height: 190px; width: 130px"></div>
                     <div style="position: absolute; top:7px; left: 7px; padding: 1px; background-color: black; color: whitesmoke">{{pelicula.vote_average}}</div>
-                    <ion-card-content class="small-text">{{pelicula.title}}</ion-card-content>
+                    <ion-card-content class="small-text ">{{pelicula.title | truncatetext:34}}</ion-card-content>
                 </ion-card>
+
             </ion-col>
         </ion-row>
 
     </ion-slide>
 
-    <ion-slide class="slide-more">
+    <ion-slide *ngIf="!totalPagesReached" class="slide-more">
 
         <ion-button (click)="loadMore()" expand="full" size="large" class="btn-more">
             <ion-icon slot="icon-only" name="add"></ion-icon>

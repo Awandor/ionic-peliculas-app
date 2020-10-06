@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-title>
+    <ion-toolbar color="dark">
+        <ion-title class="text-sansita" color="light">
             Favoritos
         </ion-title>
     </ion-toolbar>
@@ -12,17 +12,15 @@
 
     <ion-grid fixed>
         <ion-row>
-            <ion-col size="6" *ngFor="let favorito of favoritos">
+            <ion-col size="6" size-md="3" *ngFor="let favorito of favoritos">
 
-                <ion-card (click)="mostrarDetalle(favorito.id)">
+                <ion-card color="light" (click)="mostrarDetalle(favorito.id)">
                     <img [src]="favorito.poster_path | poster">
                     <div style="position: absolute; top:7px; left: 7px; padding: 1px; background-color: black; color: whitesmoke">{{favorito.vote_average}}</div>
-                    <ion-card-header>
-                        <ion-card-subtitle>{{favorito.release_date}}</ion-card-subtitle>
-                    </ion-card-header>
+
                     <ion-card-content>
                         <h2>{{favorito.title}}</h2>
-                        <h3>{{favorito.original_title}}</h3>
+                        <h4><i>({{favorito.original_title}})</i></h4>
                     </ion-card-content>
                 </ion-card>
             </ion-col>

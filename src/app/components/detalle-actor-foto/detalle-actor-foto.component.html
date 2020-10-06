@@ -1,0 +1,18 @@
+<ion-content [fullscreen]="true">
+    <div class="foto-container">
+        <img class="foto" [src]="foto | poster">
+    </div>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar color="dark">
+
+        <ion-buttons slot="start">
+            <ion-button (click)="closeModal()">
+                <ion-icon slot="start" name="arrow-back-circle-outline"></ion-icon>
+                <ion-label>Volver</ion-label>
+            </ion-button>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-footer>

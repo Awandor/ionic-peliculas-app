@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 // import { map } from 'rxjs/operators';
 
 import * as moment from 'moment';
-import { RespuestaMDB, PeliculaDetalle, PeliculaActores, SearchResult } from '../interfaces/interfaces';
+import { RespuestaMDB, PeliculaDetalle, PeliculaActores, SearchResult, ActorDetalle, ActorPeliculas, Generos } from '../interfaces/interfaces';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -22,6 +22,8 @@ export class MoviesService {
 
     private recientesPage = 1;
 
+    public totalPagesReached = false;
+
     constructor(private http: HttpClient) { }
 
     private getQuery<T>(param: string) {
@@ -33,49 +35,39 @@ export class MoviesService {
 
     }
 
-    getEnCartelera(voteAverageLower: number, voteAverageUpper: number, voteCount: number, period: string) {
-
-        const now = moment().format('YYYY-MM-DD');
-
-        let momentEarlier: string;
+    getMomentEarlier(period: string) {
 
         if (period === 'lastWeek') {
 
-            momentEarlier = moment().subtract(7, 'days').format('YYYY-MM-DD');
+            return moment().subtract(7, 'days').format('YYYY-MM-DD');
 
         } else if (period === 'lastMonth') {
 
-            momentEarlier = moment().subtract(1, 'month').format('YYYY-MM-DD');
+            return moment().subtract(1, 'month').format('YYYY-MM-DD');
 
         } else {
 
-            momentEarlier = moment().subtract(1, 'year').format('YYYY-MM-DD');
+            return moment().subtract(1, 'year').format('YYYY-MM-DD');
 
         }
 
-        return this.getQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${momentEarlier}&primary_release_date.lte=${now}&vote_average.gte=${voteAverageLower}&vote_average.lte=${voteAverageUpper}&vote_count.gte=${voteCount}&sort_by=vote_average.desc`);
-
     }
 
-    getEnCarteleraSiguientePagina(voteAverageLower: number, voteAverageUpper: number, voteCount: number, period: string) {
-
-        this.recientesPage++;
+    getEnCartelera(voteAverageLower: number, voteAverageUpper: number, voteCount: number, period: string, next: boolean, reset: boolean) {
 
         const now = moment().format('YYYY-MM-DD');
 
-        let momentEarlier: string;
+        const momentEarlier = this.getMomentEarlier(period);
 
-        if (period === 'lastWeek') {
+        if (next) {
 
-            momentEarlier = moment().subtract(7, 'days').format('YYYY-MM-DD');
+            this.recientesPage++;
 
-        } else if (period === 'lastMonth') {
+        }
 
-            momentEarlier = moment().subtract(1, 'month').format('YYYY-MM-DD');
+        if (reset) {
 
-        } else {
-
-            momentEarlier = moment().subtract(1, 'year').format('YYYY-MM-DD');
+            this.recientesPage = 1;
 
         }
 
@@ -83,16 +75,36 @@ export class MoviesService {
 
     }
 
-    getPopulares() {
+    getPopulares(year: string, next: boolean, votos: number, reset: boolean, genero?: number) {
 
-        const now = moment().format('YYYY-MM-DD');
+        // const now = moment().format('YYYY-MM-DD');
 
-        const yearEarlier = moment().subtract(1, 'year').format('YYYY-MM-DD');
+        // const yearEarlier = moment().subtract(1, 'year').format('YYYY-MM-DD');
 
-        this.popularesPage++;
+        const now = `${year}-12-31`;
 
-        // tslint:disable-next-line: max-line-length
-        return this.getQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${yearEarlier}&primary_release_date.lte=${now}&sort_by=vote_average.desc&vote_count.gte=1500&page=${this.popularesPage}`);
+        const yearEarlier = `${year}-01-01`;
+
+        if (next) {
+
+            this.popularesPage++;
+
+        }
+
+        if (reset) {
+
+            this.popularesPage = 1;
+
+        }
+
+        let generoId = '';
+
+        if (genero !== 0) {
+
+            generoId = `&with_genres=${genero}`;
+        }
+
+        return this.getQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${yearEarlier}&primary_release_date.lte=${now}&vote_count.gte=${votos}&page=${this.popularesPage}${generoId}&sort_by=vote_average.desc`);
 
     }
 
@@ -129,4 +141,29 @@ export class MoviesService {
         return this.getQuery<SearchResult>(`/search/movie?query=${query}&page=${this.busquedaPage}`);
 
     }
+
+    getDetalleActor(id: number) {
+
+        // Añadimos ?a=1 para que no falle &api_key
+
+        return this.getQuery<ActorDetalle>(`/person/${id}?a=1`);
+
+    }
+
+    getPeliculasActor(id: number) {
+
+        // Añadimos ?a=1 para que no falle &api_key
+
+        return this.getQuery<ActorPeliculas>(`/person/${id}/movie_credits?a=1`);
+
+    }
+
+    getGeneros() {
+
+        // Añadimos ?a=1 para que no falle &api_key
+
+        return this.getQuery<Generos>(`/genre/movie/list?a=1`);
+
+    }
+
 }

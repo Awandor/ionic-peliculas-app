@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MoviesService } from '../services/movies.service';
 import { DetalleComponent } from '../components/detalle/detalle.component';
 import { ModalController } from '@ionic/angular';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
     selector: 'app-tab2',
@@ -16,7 +17,9 @@ export class Tab2Page {
 
     buscando = false;
 
-    constructor(private ms: MoviesService, private modalCtrl: ModalController) { }
+    numeroPeliculasEncontradas: number;
+
+    constructor(private ms: MoviesService, private modalCtrl: ModalController, private keyboard: Keyboard) { }
 
     onSearchChange(event: any) {
 
@@ -34,7 +37,11 @@ export class Tab2Page {
 
                 this.resultadoBusqueda = resp.results;
 
+                this.numeroPeliculasEncontradas = resp.total_results;
+
                 this.buscando = false;
+
+                this.keyboard.hide();
 
             });
 
@@ -59,13 +66,13 @@ export class Tab2Page {
 
     cargarSiguientePagina(evento: any) {
 
-        console.log('cargarSiguientePagina evento', evento);
+        // console.log('cargarSiguientePagina evento', evento);
 
-        console.log('textoBuscar', this.textoBuscar);
+        // console.log('textoBuscar', this.textoBuscar);
 
         this.ms.getBusquedaPeliculaSiguientePagina(this.textoBuscar).subscribe(resp => {
 
-            console.log(resp);
+            // console.log(resp);
 
             // this.resultadoBusqueda = resp.results;
 

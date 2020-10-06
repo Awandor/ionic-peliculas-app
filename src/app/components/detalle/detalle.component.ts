@@ -1,15 +1,16 @@
-import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
-import { PeliculaDetalle, Cast } from '../../interfaces/interfaces';
+import { PeliculaDetalle, Cast, Crew } from '../../interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { LocalDataService } from '../../services/local-data.service';
+import { DetalleActorComponent } from '../detalle-actor/detalle-actor.component';
 
 @Component({
     selector: 'app-detalle',
     templateUrl: './detalle.component.html',
     styleUrls: ['./detalle.component.scss'],
 })
-export class DetalleComponent implements OnInit, AfterViewChecked {
+export class DetalleComponent implements OnInit {
 
     @Input() id: number;
 
@@ -21,10 +22,35 @@ export class DetalleComponent implements OnInit, AfterViewChecked {
 
     actores: Cast[] = [];
 
+    directores: Crew[] = [];
+
     slideOpts = {
         slidesPerView: 3.3,
-        freeMode: false
+        freeMode: true,
+        breakpoints: {
+            // when window width is >= 767px
+            767: {
+                slidesPerView: 5.3,
+                // spaceBetween: 30,
+            }
+        }
     };
+
+    slideGenerosOpts = {
+        slidesPerView: 3.5,
+        freeMode: true,
+        breakpoints: {
+            // when window width is >= 767px
+            767: {
+                slidesPerView: 5.3,
+                // spaceBetween: 30,
+            }
+        }
+    };
+
+    // PROBLEMA: slideOpts es ignorado la primera vez que se abre la modal,
+    // la solución es mostrar el slider cuando se ha renderizado la modal > ionViewDidEnter
+    viewEntered = false;
 
     corazon = 'heart-outline';
 
@@ -64,11 +90,23 @@ export class DetalleComponent implements OnInit, AfterViewChecked {
 
         });
 
-        // setTimeout(() => {  }, 2000);
+        this.ms.getActoresPelicula(this.id).subscribe(resp => {
+
+            this.directores = resp.crew.filter(valor => {
+
+                return valor.department === 'Directing' && valor.job === 'Director';
+
+            });
+
+            console.log('director', this.directores);
+
+        });
 
     }
 
-    ngAfterViewChecked() {
+    ionViewDidEnter() {
+
+        this.viewEntered = true;
 
     }
 
@@ -85,6 +123,40 @@ export class DetalleComponent implements OnInit, AfterViewChecked {
         // console.log(existe);
 
         this.corazon = (existe) ? 'heart' : 'heart-outline';
+
+    }
+
+    async onDirectorClick(id: string) {
+
+        // create retorna una promesa así que usamos await y la función debe de ser async
+
+        const modal = await this.mc.create({
+            component: DetalleActorComponent,
+            componentProps: {
+                id, // id: id
+                tipo: 'director'
+            },
+            id: 'modalActor'
+        });
+
+        modal.present();
+
+    }
+
+    async onActorClick(id: string) {
+
+        // create retorna una promesa así que usamos await y la función debe de ser async
+
+        const modal = await this.mc.create({
+            component: DetalleActorComponent,
+            componentProps: {
+                id, // id: id
+                tipo: 'actor'
+            },
+            id: 'modalActor'
+        });
+
+        modal.present();
 
     }
 

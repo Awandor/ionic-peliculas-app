@@ -106,6 +106,8 @@ Hay que importarlo y exportarlo en `pipes.module`
 
 Creamos un componente para la modal > `ionic g c components/detalle --spec=false`
 
+Importar y exportar el componente en `components.module`
+
 En slideshow-backdrop creamos un método que muestra la modal, para ello necesitamos inyectar en el constructor ModalController
 
 En el detalle recibimos por @Input() el id
@@ -121,9 +123,56 @@ Hacemos lo mismo con el servicio get actores por id.
 Para poder cerrar la modal necesitamos inyectar ModalController
 
 
+## Modal con detalles de un actor
+
+Creamos un componente para la modal > `ionic g c components/detalle-actor --spec=false`
+
+Importar y exportar el componente en `components.module`
+
+En slideshow-poster del detalle de la película creamos un método que muestra la modal, para ello necesitamos inyectar en el constructor ModalController
+
+En el detalle recibimos por @Input() el id
+
+Ahora vamos a crear un servicio de get detalles de un actor por id
+
+Para el detalle del actor creamos una interface de la respuesta copiandola de postman y añadiendo export
+
+Ahora podemos añadir al servicio del detalle que lo que retorna es de tipo `ActorDetalle`
+
+Para poder cerrar la modal necesitamos inyectar ModalController
+
+
+## Modal con foto de un actor
+
+Creamos un componente para la modal > `ionic g c components/detalle-actor-foto --spec=false`
+
+Importar y exportar el componente en `components.module`
+
+En la foto del detalle del actor creamos un método que muestra la modal, para ello necesitamos inyectar en el constructor ModalController
+
+En el detalle recibimos por @Input() la url de la foto
+
+
+## Pipe Saltos de línea
+
+Creamos un pipe para producir saltos de línea después de cada punto en un texto
+
+> `ionic g pipe pipes/saltos-linea --skipTests=true`
+
+Hay que importarlo y exportarlo en `pipes.module`
+
+
 ## Tab2 Buscador
 
 Creamos el servicio
+
+Importamos MoviesService y ModalController
+
+Importamos el plugin nativo Keyboard para poder cerrar el teclado una vez se muestren resultados
+
+> `ionic cordova plugin add cordova-plugin-ionic-keyboard`
+
+> `npm install @ionic-native/keyboard`
 
 
 ## Storage de Favoritos
@@ -178,6 +227,8 @@ Tomar nota de `Available android devices`, por ejemplo: Xiaomi Mi A1 (API 28) 5e
 Anotar 5e346adb0504
 
 > `ionic cordova run android --target=5e346adb0504`
+
+> `ionic cordova run android --target=5e346adb0504 -l` Para autoreload
 
 Esperar a que se cree la carpeta WWW y se pueble de archivos
 
@@ -237,7 +288,7 @@ Consultar la documentación de Cordova para entender lo que hacen los diferentes
 `https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-splashscreen/index.html`
 
 
-## GIT
+# GIT
 Añadimos los cambios a GIT> `git add .`
 Commit > `git commit -m "Primer commit"`
 
@@ -253,3 +304,64 @@ Situarnos en la rama master > `git branch -M master`
 Subir todos los cambios a la rama master remota > `git push -u origin master`
 
 Para reconstruir en local el código de GitHub nos bajamos el código y ejecutamos `npm install` que instala todas las dependencias
+
+
+# GENERAR UNA PWA
+
+Partimos de nuestra app de noticias en ionic.
+
+Documentación en `https://ionicframework.com/docs/deployment/progressive-web-app`
+
+Documentación oficial de Google sobre PWA: `https://web.dev/progressive-web-apps/`
+
+Como nuestra aplicación de ionic es básicamente una aplicación de Angular, nos permite utilizar los paquetes
+propios de Angular para transformar todo el código en una PWA
+
+> `ng add @angular/pwa`
+
+Esto crea unas configuarciones, unos iconos, service workers, manifest.json
+
+> `ionic build --prod`
+
+Esto recrea la carpeta WWW que contendrá el código para ser desplegado como una PWA
+
+Debemos ajustar en `index.html` <meta name="theme-color" content="#1976d2"> y poner el color que queremos #222428 (dark)
+
+
+## Desplegar la PWA en un hosting
+
+Debe de ser un hosting con https
+
+Vamos a hacerlo usando Firebase, entramos en nuestra cuenta, añadimos o editamos un proyecto existente.
+
+Vamos a Hosting > Empezar/Get started
+
+Si no tenemos instalado CLI de Firebase > `npm install -g firebase-tools` Hay que abrir CMD como administrador
+
+Para comprobar si lo tenemos instalado > `firebase --version`
+
+Después > `firebase login` Nos va a pedir nuestro login de Google
+
+Debemos estar en la raiz del proyecto > `firebase init`
+
+Seleccionamos Hosting space enter
+
+Use an existing project
+
+What do you want to use as your public directory? www
+
+Configure as a single-page app? y
+
+File www/index.html already exists. Overwrite? n
+
+Vamos a Firebase y siguiente
+
+Ahora vamos a desplegar la PWA a Firebase > `firebase deploy`
+
+La dirección es: `https://proyectos-ionic.web.app`
+
+Newsapi.org ha cambiado los privilegios para las cuentas de desarrollador gratuitas, solo se podrán realizar peticiones http desde localhost, es decir, desde nuestro proyecto en local.
+
+Al desplegar la app a producción el origin cambia de localhost al nombre del dominio, por lo tanto, el servidor emite el bloqueo de la conexión por CORS.
+
+Antes, si era posible desplegar una app a producción sin problemas, ahora es necesario una cuenta de pago.

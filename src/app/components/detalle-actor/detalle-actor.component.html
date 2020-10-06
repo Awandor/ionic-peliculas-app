@@ -1,0 +1,93 @@
+<ion-content [fullscreen]="true">
+
+    <ion-grid *ngIf="viewEntered">
+        <ion-row>
+
+            <ion-col size="6" class="poster-detalle-sobre">
+
+                <!-- <ion-card (click)="mostrarFoto(actor.profile_path)">
+                    <img [src]="actor.profile_path | poster">
+                </ion-card> -->
+
+                <div class="foto-container" (click)="mostrarFoto(actor.profile_path)">
+                    <img class="foto" [src]="actor.profile_path | poster">
+                </div>
+
+            </ion-col>
+
+            <ion-col size="6">
+
+                <ion-item>
+                    <ion-label>{{actor.name}}</ion-label>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label><small>{{actor.birthday}}</small></ion-label>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label><small>{{actor.place_of_birth}}</small></ion-label>
+                </ion-item>
+
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid *ngIf="viewEntered">
+        <ion-row *ngIf="actor.biography">
+            <ion-col size="12">
+                <ion-label class="saltos-linea">{{actor.biography | truncatetext:limiteLetras}}</ion-label>
+                <ion-item>
+                    <ion-note *ngIf="limiteLetras !== 5000" slot="end" color="primary" (click)="limiteLetras = 5000"> Leer más</ion-note>
+                    <ion-note *ngIf="limiteLetras === 5000" slot="end" color="primary" (click)="limiteLetras = 200"> Leer menos</ion-note>
+                </ion-item>
+
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid fixed>
+        <ion-row>
+            <ion-col>
+                <h3>Películas</h3>
+            </ion-col>
+            <ion-col>
+                <h3 class="ion-text-end"><small>{{peliculas.length}} resultados</small></h3>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid fixed>
+        <ion-row>
+            <ion-col size="6" size-md="3" *ngFor="let pelicula of peliculas">
+
+                <ion-card (click)="mostrarDetalle(pelicula.id)">
+                    <img [src]="pelicula.poster_path | poster">
+                    <div style="position: absolute; top:7px; left: 7px; padding: 1px; background-color: black; color: whitesmoke">{{pelicula.vote_average}}</div>
+                    <ion-card-header>
+                        <ion-card-subtitle>{{pelicula.release_date}}</ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <h2>{{pelicula.title}}</h2>
+                        <h4><i>({{pelicula.original_title}})</i></h4>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar color="dark">
+
+        <ion-buttons slot="start">
+            <ion-button (click)="closeModal()">
+                <ion-icon slot="start" name="arrow-back-circle-outline"></ion-icon>
+                <ion-label>Volver</ion-label>
+            </ion-button>
+        </ion-buttons>
+
+    </ion-toolbar>
+</ion-footer>

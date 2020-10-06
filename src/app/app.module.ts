@@ -14,6 +14,10 @@ import { HttpClientModule } from '@angular/common/http';
 // Storage
 
 import { IonicStorageModule } from '@ionic/storage';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -23,12 +27,14 @@ import { IonicStorageModule } from '@ionic/storage';
         IonicModule.forRoot(),
         AppRoutingModule,
         HttpClientModule,
-        IonicStorageModule.forRoot()
+        IonicStorageModule.forRoot(),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [
         StatusBar,
         SplashScreen,
-        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        Keyboard
     ],
     bootstrap: [AppComponent]
 })

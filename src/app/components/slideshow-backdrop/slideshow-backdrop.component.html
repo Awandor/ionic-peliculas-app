@@ -1,15 +1,15 @@
 <ion-slides #recientesRef [options]="slideOpts">
     <ion-slide *ngFor="let pelicula of peliculas">
 
-        <ion-card (click)="mostrarDetalle(pelicula.id)">
+        <ion-card color="light" (click)="mostrarDetalle(pelicula.id)">
             <img [src]="pelicula.backdrop_path | imagen">
             <div style="position: absolute; top:7px; left: 7px; padding: 1px; background-color: black; color: whitesmoke">{{pelicula.vote_average}}</div>
-            <ion-card-content>{{pelicula.title}} <small>({{pelicula.release_date | date:'dd/MM/yyyy'}})</small></ion-card-content>
+            <ion-card-content>{{pelicula.title | truncatetext:34}} <small>({{pelicula.release_date | date:'dd/MM/yyyy'}})</small></ion-card-content>
         </ion-card>
 
     </ion-slide>
 
-    <ion-slide class="slide-more">
+    <ion-slide *ngIf="!totalPagesReached" class="slide-more">
 
         <ion-button (click)="loadMoreRecientes()" expand="full" size="large" class="btn-more">
             <ion-icon slot="icon-only" name="add"></ion-icon>

@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-title>
+    <ion-toolbar color="dark">
+        <ion-title class="text-sansita" color="light">
             Películas
         </ion-title>
     </ion-toolbar>
@@ -10,8 +10,11 @@
 
     <ion-grid fixed>
         <ion-row>
-            <ion-col>
-                <h3>Películas nuevas <small>{{numeroPeliculasRecientes}} resultados</small></h3>
+            <ion-col size="8">
+                <h3>Películas nuevas</h3>
+            </ion-col>
+            <ion-col size="4">
+                <h3 class="ion-text-end"><small>{{numeroPeliculasRecientes}} resultados</small></h3>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -34,15 +37,15 @@
             </ion-item>
         </ion-radio-group>
         <ion-item>
-            <ion-label position="floating">Puntación</ion-label>
+            <ion-label position="floating"><small>Rango de puntuación</small></ion-label>
             <ion-range min="0" max="10" dual-knobs="true" pin="true" debounce="1500" snaps="true" step="1" ticks="true" value="10" color="primary" (ionChange)="rangeChange($event)">
-                <ion-icon size="small" slot="start" name="star"></ion-icon>
-                <ion-icon slot="end" name="star"></ion-icon>
+                <ion-icon size="small" color="medium" slot="start" name="star"></ion-icon>
+                <ion-icon slot="end" color="medium" name="star"></ion-icon>
             </ion-range>
         </ion-item>
         <ion-item>
-            <ion-label position="floating">Número de votos mínimo</ion-label>
-            <ion-input type="number" placeholder="1" [(ngModel)]="numeroVotos" debounce="1500" (ionChange)="onClick($event)" required></ion-input>
+            <ion-label position="floating">Selecciona número de votos mínimo</ion-label>
+            <ion-input type="number" color="primary" placeholder="1" [(ngModel)]="numeroVotos" debounce="1500" (ionChange)="onClick($event)" required></ion-input>
         </ion-item>
     </ion-list>
 
@@ -56,7 +59,7 @@
         </ion-slide>
     </ion-slides> -->
 
-    <app-slideshow-backdrop [peliculas]="peliculasRecientes" (loadMoreRecientesEvent)="loadMoreRecientes()"></app-slideshow-backdrop>
+    <app-slideshow-backdrop [peliculas]="peliculasRecientes" [totalPagesReached]="totalPagesRecientesReached" (loadMoreEvent)="loadMoreEnCartelera()"></app-slideshow-backdrop>
 
     <!-- <ion-grid fixed>
         <ion-row>
@@ -68,14 +71,44 @@
 
     <app-slideshow-poster [peliculas]="peliculasRecientes" [slideOptions]="slideOpts" (loadMoreEvent)="loadMore()"></app-slideshow-poster> -->
 
-    <ion-grid fixed>
+    <ion-grid>
         <ion-row>
+            <ion-col size="8">
+                <h3>Películas populares</h3>
+            </ion-col>
             <ion-col>
-                <h3>Populares</h3>
+                <h3 class="ion-text-end"><small>{{numeroPeliculasPopulares}} resultados</small></h3>
             </ion-col>
         </ion-row>
     </ion-grid>
 
-    <app-slideshow-pares [peliculas]="peliculasPopulares" [slideOptions]="slideOpts" (loadMoreEvent)="loadMore()"></app-slideshow-pares>
+    <ion-item>
+        <ion-grid fixed>
+            <ion-row>
+
+                <ion-col size="6">
+                    <ion-label position="floating">Selecciona año</ion-label>
+                    <ion-datetime color="primary" display-format="YYYY" picker-format="YYYY" min="1900" [max]="currentYear" [value]="currentYear" (ionChange)="yearChange($event)"></ion-datetime>
+                </ion-col>
+
+                <ion-col size="6">
+                    <ion-label position="floating">Selecciona género</ion-label>
+                    <ion-select [value]="generos[0].id" interface="popover" okText="Done" cancelText="Cancel" (ionChange)="generoChange($event)">
+                        <ion-select-option *ngFor="let genero of generos" [value]="genero.id">{{genero.name}}</ion-select-option>
+                    </ion-select>
+                </ion-col>
+
+            </ion-row>
+        </ion-grid>
+    </ion-item>
+    <ion-item>
+        <ion-label position="floating"><small>Rango de número de votos mínimo</small></ion-label>
+        <ion-range min="100" max="15000" pin="true" debounce="1500" snaps="true" step="100" ticks="true" [value]="puntuacionMinPopulares" color="primary" (ionChange)="rangeNumeroVotosChange($event)">
+            <ion-icon size="small" color="medium" slot="start" name="ribbon"></ion-icon>
+            <ion-icon slot="end" color="medium" name="ribbon"></ion-icon>
+        </ion-range>
+    </ion-item>
+
+    <app-slideshow-pares [peliculas]="peliculasPopulares" [slideOptions]="slideOpts" [totalPagesReached]="totalPagesPopularesReached" (loadMoreEvent)="loadMorePopulares()"></app-slideshow-pares>
 
 </ion-content>

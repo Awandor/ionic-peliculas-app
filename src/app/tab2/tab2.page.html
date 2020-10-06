@@ -1,13 +1,14 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-title>
+    <ion-toolbar color="dark">
+        <ion-title class="text-sansita" color="light">
             Buscar película
         </ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-toolbar>
-    <ion-searchbar placeholder="Película" inputmode="decimal" (ionChange)="onSearchChange($event)" [debounce]="700" showCancelButton="always"></ion-searchbar>
+    <!-- <ion-searchbar placeholder="Película" inputmode="text" animated (ionChange)="onSearchChange($event)" [debounce]="700" showCancelButton="always"></ion-searchbar> -->
+    <ion-searchbar placeholder="Película" inputmode="text" animated (ionChange)="onSearchChange($event)" [debounce]="1000" showCancelButton="always"></ion-searchbar>
 </ion-toolbar>
 
 <ion-content [fullscreen]="true">
@@ -16,6 +17,16 @@
         <ion-row>
             <ion-col class="ion-text-center">
                 <ion-spinner name="crescent"></ion-spinner>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid fixed>
+        <ion-row>
+            <ion-col size="12" class="ion-text-end">
+                <h3>
+                    <small *ngIf="numeroPeliculasEncontradas >= 0" class="ion-text-right">{{numeroPeliculasEncontradas}} resultados</small>
+                </h3>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -40,7 +51,7 @@
     </ion-grid>
 
     <ion-infinite-scroll threshold="15%" position="bottom" (ionInfinite)="cargarSiguientePagina($event)">
-        <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Loading more data...">
+        <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Cargando más películas...">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
 
