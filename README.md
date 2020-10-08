@@ -200,7 +200,7 @@ servicios que se encarga de traer información
 Después importamos en `local-data.service` `Storage` y lo inyectamos en el constructor
 
 
-## Cargar noticias guardadas localmente
+## Cargar favoritos guardados localmente
 
 Lo hacemos de manera diferente, los favoritos de cargan en el constructor del servicio y se almacenan
 en el arreglo de favoritos. Ya los tenemos de entrada. 
@@ -244,6 +244,10 @@ En la parte de la aplicación > Inspect
 
 Ya podemos ver por Consola los mensajes de la app
 
+Si tenemos errores podemos borrar la plataforma android > `ionic cordova platform remove android` y volverla a generar
+
+Borrar la plataforma no borra la carpeta resources
+
 
 ## Splash screen y App Icon
 
@@ -254,6 +258,8 @@ La imagen para el Splash debe se ser mínimo 3000 x 3000
 Información útil > `https://blog.ionicframework.com/automating-icons-and-splash-screens/`
 
 Las imágenes van en resources > icon.png y splash.png
+
+La carpeta resources se crea cuando generamos una plataforma
 
 Una vez las tenemos > `ionic cordova resources`
 
