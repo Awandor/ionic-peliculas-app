@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
 import { PeliculaDetalle, Cast, Crew } from '../../interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
@@ -23,6 +23,8 @@ export class DetalleComponent implements OnInit {
     actores: Cast[] = [];
 
     directores: Crew[] = [];
+
+    favoritos: PeliculaDetalle[] = [];
 
     slideOpts = {
         slidesPerView: 3.3,
@@ -64,7 +66,7 @@ export class DetalleComponent implements OnInit {
 
         this.lds.existeFavorito(this.id).then(existe => {
 
-            return this.corazon = (existe) ? 'heart' : 'heart-outline';
+            this.corazon = (existe) ? 'heart' : 'heart-outline';
 
         });
 

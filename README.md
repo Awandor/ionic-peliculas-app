@@ -34,7 +34,7 @@ Importamos map en el servicio para manejar los resultados
 
 ## Creamos una interface
 
-app > interfaces > interfaces.ts
+app > interfaces > `interfaces.ts`
 
 Copiamos todo el resultado de Postman
 
@@ -55,7 +55,7 @@ Ahora creamos el pipe > `ionic g pipe pipes/imagen --skipTests=true`
 
 Al crearlo se importa automáticamente en `pipes.module`, también tenemos que exportarlo para poder usarlo fuera
 
-Para usarlo en tab1 tenemos que importar PipesModule en tab1.module
+Para usarlo en tab1 tenemos que importar `PipesModule` en `tab1.module`
 
 
 ## Variables globales dentro de environments
@@ -75,7 +75,7 @@ No sé porque, pero no ha hecho el update de `components.module`, así que lo im
 
 Como lo vamos a usar fuera del alcance del módulo lo exportamos
 
-Necesitamos importar también IonicModule, PipesModule en `components.module`
+Necesitamos importar también `IonicModule`, `PipesModule` en `components.module`
 
 Para poder utilizar el componente en tab1 necesitamos importar `ComponentsModule` en `tab1.module`
 
@@ -86,7 +86,7 @@ Seguimos los pasos del anterior componente
 
 ## Mostrar películas populares
 
-En https://developers.themoviedb.org/3/getting-started/images > Discover > sort_by
+En `https://developers.themoviedb.org/3/getting-started/images` > Discover > sort_by
 
 Creamos un nuevos servicio donde aplicamos sort_by
 
@@ -110,7 +110,7 @@ Importar y exportar el componente en `components.module`
 
 En slideshow-backdrop creamos un método que muestra la modal, para ello necesitamos inyectar en el constructor ModalController
 
-En el detalle recibimos por @Input() el id
+En el detalle recibimos por `@Input()` el id
 
 Ahora vamos a crear un servicio de get detalles de una película por id y otro de get actores
 
@@ -120,7 +120,7 @@ Ahora podemos añadir al servicio del detalle que lo que retorna es de tipo `Pel
 
 Hacemos lo mismo con el servicio get actores por id.
 
-Para poder cerrar la modal necesitamos inyectar ModalController
+Para poder cerrar la modal necesitamos inyectar `ModalController`
 
 
 ## Modal con detalles de un actor
@@ -129,9 +129,9 @@ Creamos un componente para la modal > `ionic g c components/detalle-actor --spec
 
 Importar y exportar el componente en `components.module`
 
-En slideshow-poster del detalle de la película creamos un método que muestra la modal, para ello necesitamos inyectar en el constructor ModalController
+En `slideshow-poster` del detalle de la película creamos un método que muestra la modal, para ello necesitamos inyectar en el constructor `ModalController`
 
-En el detalle recibimos por @Input() el id
+En el detalle recibimos por `@Input()` el id
 
 Ahora vamos a crear un servicio de get detalles de un actor por id
 
@@ -139,7 +139,7 @@ Para el detalle del actor creamos una interface de la respuesta copiandola de po
 
 Ahora podemos añadir al servicio del detalle que lo que retorna es de tipo `ActorDetalle`
 
-Para poder cerrar la modal necesitamos inyectar ModalController
+Para poder cerrar la modal necesitamos inyectar `ModalController`
 
 
 ## Modal con foto de un actor
@@ -148,9 +148,9 @@ Creamos un componente para la modal > `ionic g c components/detalle-actor-foto -
 
 Importar y exportar el componente en `components.module`
 
-En la foto del detalle del actor creamos un método que muestra la modal, para ello necesitamos inyectar en el constructor ModalController
+En la foto del detalle del actor creamos un método que muestra la modal, para ello necesitamos inyectar en el constructor `ModalController`
 
-En el detalle recibimos por @Input() la url de la foto
+En el detalle recibimos por `@Input()` la url de la foto
 
 
 ## Pipe Saltos de línea
@@ -166,9 +166,9 @@ Hay que importarlo y exportarlo en `pipes.module`
 
 Creamos el servicio
 
-Importamos MoviesService y ModalController
+Importamos `MoviesService` y `ModalController`
 
-Importamos el plugin nativo Keyboard para poder cerrar el teclado una vez se muestren resultados
+Importamos el plugin nativo `Keyboard` para poder cerrar el teclado una vez se muestren resultados
 
 > `ionic cordova plugin add cordova-plugin-ionic-keyboard`
 
@@ -311,23 +311,6 @@ In the config.xml, we will add resource-file to copy the colors.xml into the app
 </platform>
 
 
-# GIT
-Añadimos los cambios a GIT> `git add .`
-Commit > `git commit -m "Primer commit"`
-
-Si en este punto borro accidentalmente algo puedo recuperarlo con > `git checkout -- .`
-
-Que nos recontruye los archivos tal y como estaban en el último commit.
-
-Enlazamos el repositorio local con un repositorio externo en GitHub donde tenemos cuenta y hemos creado un repositorio
-`git remote add origin https://github.com/Awandor/ionic-pelicuals-app.git`
-
-Situarnos en la rama master > `git branch -M master`
-
-Subir todos los cambios a la rama master remota > `git push -u origin master`
-
-Para reconstruir en local el código de GitHub nos bajamos el código y ejecutamos `npm install` que instala todas las dependencias
-
 
 # GENERAR UNA PWA
 
@@ -344,11 +327,28 @@ propios de Angular para transformar todo el código en una PWA
 
 Esto crea unas configuarciones, unos iconos, service workers, manifest.json
 
+Más documentación `https://web.dev/customize-install/`
+
+Requerimientos del `manifest.webmanifest`
+
+1. a short_name (used on the home screen)
+2. a name (used in the banner)
+3. a 192x192 png icon (the icon declarations must include a mime type of image/png)
+4. a start_url that loads
+5. has a service worker registered on your site
+
+Is served over HTTPS (a requirement for using service worker). Meets a site engagement heuristic defined by Chrome (this is regularly being changed).
+
+Starting with Chrome 68 you will need to handle "beforeinstallprompt " event and call prompt() on user gesture to get the Add to Homescreen (A2HS), it won't happen automatically.
+
 > `ionic build --prod`
 
 Esto recrea la carpeta WWW que contendrá el código para ser desplegado como una PWA
 
 Debemos ajustar en `index.html` <meta name="theme-color" content="#1976d2"> y poner el color que queremos #222428 (dark)
+
+
+
 
 
 ## Crear Splash e iconos para PWA
@@ -401,3 +401,34 @@ Hay que correr > `ionic build --prod`
 Y después  > `firebase deploy`
 
 Si queremos subir a otro proyecto de Firebase borrar `.firebaserc` y `firebase.json`
+
+
+# GIT
+Añadimos los cambios a GIT> `git add .`
+Commit > `git commit -m "Primer commit"`
+
+Si en este punto borro accidentalmente algo puedo recuperarlo con > `git checkout -- .`
+
+Que nos recontruye los archivos tal y como estaban en el último commit.
+
+Enlazamos el repositorio local con un repositorio externo en GitHub donde tenemos cuenta y hemos creado un repositorio
+`git remote add origin https://github.com/Awandor/ionic-peliculas-app.git`
+
+Situarnos en la rama master > `git branch -M master`
+
+Subir todos los cambios a la rama master remota > `git push -u origin master`
+
+Para reconstruir en local el código de GitHub nos bajamos el código y ejecutamos `npm install` que instala todas las dependencias
+
+
+## Tags y Releases
+
+Crear un tag en Github y un Release
+
+> `git tag -a v1.0.0 -m "Versión 1 - Lista para producción"`
+
+> `git tag` muestra los tags
+
+> `git push --tags` > sube los tags al repositorio remoto
+
+En github vamos a Releases > Tags > Add release notes

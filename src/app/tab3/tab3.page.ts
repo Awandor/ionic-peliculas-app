@@ -45,6 +45,12 @@ export class Tab3Page implements OnInit, ViewWillEnter {
 
     ionViewWillEnter() {
 
+        this.cargarFavoritos();
+
+    }
+
+    cargarFavoritos() {
+
         this.lds.cargarFavoritos().then(resp => {
 
             this.favoritos = resp;
@@ -64,6 +70,12 @@ export class Tab3Page implements OnInit, ViewWillEnter {
             componentProps: {
                 id // id: id
             }
+        });
+
+        modal.onDidDismiss().then((resp) => {
+
+            this.cargarFavoritos();
+
         });
 
         modal.present();
